@@ -94,11 +94,12 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.reuseIdentifier)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.backgroundColor = .clear
+        searchController.searchBar.backgroundColor = .white
         navigationItem.searchController = searchController
         definesPresentationContext = true
         tableView.dataSource = self
         tableView.delegate = self
+        view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
