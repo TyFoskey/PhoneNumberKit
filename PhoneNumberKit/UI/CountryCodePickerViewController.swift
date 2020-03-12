@@ -4,7 +4,7 @@
 import UIKit
 
 @available(iOS 11.0, *)
-protocol CountryCodePickerDelegate: class {
+public protocol CountryCodePickerDelegate: class {
     func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country)
 }
 
@@ -77,7 +77,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
     {
         self.phoneNumberKit = phoneNumberKit
         self.commonCountryCodes = commonCountryCodes
-        super.init(style: .grouped)
+        super.init(nibName: nil, bundle: nil)
         self.commonInit()
     }
 
@@ -131,15 +131,15 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         isFiltering ? filteredCountries[indexPath.row] : countries[indexPath.section][indexPath.row]
     }
 
-    public override func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         isFiltering ? 1 : countries.count
     }
 
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         isFiltering ? filteredCountries.count : countries[section].count
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseIdentifier, for: indexPath)
         let country = self.country(for: indexPath)
 
@@ -152,7 +152,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         return cell
     }
 
-    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if isFiltering {
             return nil
         } else if section == 0, hasCurrent {
@@ -165,7 +165,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         return countries[section].first?.name.first.map(String.init)
     }
 
-    public override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         guard !isFiltering else {
             return nil
         }
@@ -183,7 +183,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         }
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let country = self.country(for: indexPath)
         delegate?.countryCodePickerViewControllerDidPickCountry(country)
         tableView.deselectRow(at: indexPath, animated: true)
