@@ -6,6 +6,7 @@ import UIKit
 @available(iOS 11.0, *)
 public protocol CountryCodePickerDelegate: class {
     public func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country)
+    public func didCancel()
 }
 
 @available(iOS 11.0, *)
@@ -124,7 +125,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
     }
 
     @objc func dismissAnimated() {
-        dismiss(animated: true)
+        delegate?.didCancel()
     }
 
     func country(for indexPath: IndexPath) -> Country {
