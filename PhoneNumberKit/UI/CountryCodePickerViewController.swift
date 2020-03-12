@@ -6,7 +6,6 @@ import UIKit
 @available(iOS 11.0, *)
 protocol CountryCodePickerDelegate: class {
     func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country)
-    func didCancel()
 }
 
 @available(iOS 11.0, *)
