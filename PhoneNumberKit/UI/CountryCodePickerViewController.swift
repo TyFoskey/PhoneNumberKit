@@ -9,11 +9,13 @@ protocol CountryCodePickerDelegate: class {
 }
 
 @available(iOS 11.0, *)
-public class CountryCodePickerViewController: UITableViewController {
+public class CountryCodePickerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     lazy var searchController = UISearchController(searchResultsController: nil)
 
     public let phoneNumberKit: PhoneNumberKit
+    
+    public let tableView = UITableView()
 
     let commonCountryCodes: [String]
 
@@ -59,7 +61,7 @@ public class CountryCodePickerViewController: UITableViewController {
 
     var filteredCountries: [Country] = []
 
-    weak var delegate: CountryCodePickerDelegate?
+    public weak var delegate: CountryCodePickerDelegate?
 
     lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissAnimated))
 
@@ -95,6 +97,13 @@ public class CountryCodePickerViewController: UITableViewController {
         searchController.searchBar.backgroundColor = .clear
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
 
     public override func viewWillAppear(_ animated: Bool) {
