@@ -4,9 +4,9 @@
 import UIKit
 
 @available(iOS 11.0, *)
-public protocol CountryCodePickerDelegate: class {
-    public func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country)
-    public func didCancel()
+protocol CountryCodePickerDelegate: class {
+    func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country)
+    func didCancel()
 }
 
 @available(iOS 11.0, *)
@@ -24,6 +24,10 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
 
     var hasCurrent = true
     var hasCommon = true
+    
+    public var onCancelAction: (() -> Void)?
+    
+    public var countryCodePickerViewControllerDidPickCountry: ((CountryCodePickerViewController.Country) -> Void)?
 
     lazy var allCountries = phoneNumberKit
         .allCountries()
@@ -62,7 +66,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
 
     var filteredCountries: [Country] = []
 
-    public weak var delegate: CountryCodePickerDelegate?
+    weak var delegate: CountryCodePickerDelegate?
 
     lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissAnimated))
 
@@ -125,7 +129,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
     }
 
     @objc func dismissAnimated() {
-        delegate?.didCancel()
+        onCancelAction?()
     }
 
     func country(for indexPath: IndexPath) -> Country {
@@ -186,7 +190,8 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let country = self.country(for: indexPath)
-        delegate?.countryCodePickerViewControllerDidPickCountry(country)
+//         delegate?.countryCodePickerViewControllerDidPickCountry(country)
+        countryCodePickerViewControllerDidPickCountry?(country)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -217,9 +222,9 @@ extension CountryCodePickerViewController: UISearchResultsUpdating {
 // MARK: Types
 
 @available(iOS 11.0, *)
-internal extension CountryCodePickerViewController {
+public extension CountryCodePickerViewController {
 
-    struct Country {
+   public struct Country {
         var code: String
         var flag: String
         var name: String
