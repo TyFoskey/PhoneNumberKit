@@ -105,7 +105,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         tableView.delegate = self
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -224,10 +224,10 @@ extension CountryCodePickerViewController: UISearchResultsUpdating {
 public extension CountryCodePickerViewController {
 
    public struct Country {
-        var code: String
-        var flag: String
-        var name: String
-        var prefix: String
+        public var code: String
+        public var flag: String
+        public var name: String
+        public var prefix: String
 
         init?(for countryCode: String, with phoneNumberKit: PhoneNumberKit) {
             let flagBase = UnicodeScalar("🇦").value - UnicodeScalar("A").value
