@@ -15,7 +15,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
 
     public let phoneNumberKit: PhoneNumberKit
     
-    public let tableView = UITableView()
+    public let tableView: UITableView
 
     let commonCountryCodes: [String]
 
@@ -77,8 +77,9 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
      */
     public init(
         phoneNumberKit: PhoneNumberKit,
-        commonCountryCodes: [String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes)
+        commonCountryCodes: [String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes, tableViewStyle: UITableView.Style)
     {
+        self.tableView = UITableView(frame: .zero, style: tableViewStyle)
         self.phoneNumberKit = phoneNumberKit
         self.commonCountryCodes = commonCountryCodes
         super.init(nibName: nil, bundle: nil)
@@ -86,6 +87,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
     }
 
     required init?(coder aDecoder: NSCoder) {
+        self.tableView = UITableView(frame: .zero, style: .grouped)
         self.phoneNumberKit = PhoneNumberKit()
         self.commonCountryCodes = PhoneNumberKit.CountryCodePicker.commonCountryCodes
         super.init(coder: aDecoder)
@@ -99,6 +101,9 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.backgroundColor = .white
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.tintColor = .blue
+        searchController.searchBar.showsCancelButton = true
         navigationItem.searchController = searchController
         definesPresentationContext = true
         tableView.dataSource = self
@@ -120,7 +125,9 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         if let nav = navigationController, nav.isBeingPresented && nav.viewControllers.count == 1 {
             navigationItem.setRightBarButton(cancelButton, animated: true)
         }
+        
         navigationController?.navigationBar.barTintColor = .white
+        navigationItem.rightBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem?.tintColor = .black
     }
 
