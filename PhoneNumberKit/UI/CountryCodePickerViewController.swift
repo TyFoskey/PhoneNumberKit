@@ -120,6 +120,7 @@ public class CountryCodePickerViewController: UIViewController, UITableViewDataS
         if let nav = navigationController, nav.isBeingPresented && nav.viewControllers.count == 1 {
             navigationItem.setRightBarButton(cancelButton, animated: true)
         }
+        navigationItem.rightBarButtonItem?.tintColor = .black
     }
 
     public override func viewWillDisappear(_ animated: Bool) {
